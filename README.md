@@ -1,1 +1,2148 @@
-# IB-Lab-MSDS-Library
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IB Lab MSDS Library</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    html, body {
+      height: 100%;
+      width: 100%;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #1a202c;
+      overflow-x: hidden;
+    }
+    
+    .app-wrapper {
+      width: 100%;
+      min-height: 100%;
+      overflow-y: auto;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    
+    .disclaimer-banner {
+      background: #fef3c7;
+      border-bottom: 3px solid #f59e0b;
+      padding: 12px 24px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 500;
+      color: #92400e;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .main-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 32px 24px;
+    }
+    
+    .header {
+      background: white;
+      border-radius: 16px;
+      padding: 40px;
+      margin-bottom: 32px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+    }
+    
+    .header h1 {
+      font-size: 42px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px;
+    }
+    
+    .header p {
+      color: #64748b;
+      font-size: 18px;
+      line-height: 1.6;
+    }
+    
+    .stats-bar {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 32px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 20px;
+      text-align: center;
+    }
+    
+    .stat-item {
+      padding: 12px;
+    }
+    
+    .stat-number {
+      font-size: 32px;
+      font-weight: 900;
+      color: #667eea;
+      margin-bottom: 4px;
+    }
+    
+    .stat-label {
+      font-size: 13px;
+      color: #64748b;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    
+    .search-section {
+      background: white;
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 32px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    
+    .search-box {
+      position: relative;
+      margin-bottom: 24px;
+    }
+    
+    .search-box input {
+      width: 100%;
+      padding: 16px 20px 16px 48px;
+      font-size: 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+    
+    .search-box input:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+    }
+    
+    .search-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94a3b8;
+      font-size: 20px;
+    }
+    
+    .filter-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    
+    .filter-chip {
+      padding: 10px 20px;
+      border-radius: 24px;
+      border: 2px solid #e2e8f0;
+      background: white;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      color: #475569;
+    }
+    
+    .filter-chip:hover {
+      border-color: #667eea;
+      background: #f1f5f9;
+      transform: translateY(-2px);
+    }
+    
+    .filter-chip.active {
+      background: #667eea;
+      color: white;
+      border-color: #667eea;
+    }
+    
+    .tools-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+    
+    .tool-card {
+      background: white;
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+    
+    .tool-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+      border-color: #667eea;
+    }
+    
+    .tool-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+    
+    .tool-card h3 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 8px;
+    }
+    
+    .tool-card p {
+      color: #64748b;
+      line-height: 1.6;
+      font-size: 15px;
+    }
+    
+    .chemicals-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+    
+    .chemical-card {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+    
+    .chemical-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 24px rgba(0,0,0,0.12);
+      border-color: #667eea;
+    }
+    
+    .chemical-name {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 8px;
+    }
+    
+    .chemical-formula {
+      color: #64748b;
+      font-size: 14px;
+      font-style: italic;
+      margin-bottom: 12px;
+    }
+    
+    .hazard-icons {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    
+    .hazard-icon {
+      font-size: 24px;
+    }
+    
+    .chemical-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    
+    .tag {
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      background: #f1f5f9;
+      color: #475569;
+    }
+    
+    .tag.restricted {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+    
+    .tag.has-disposal {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+    
+    .chemical-detail {
+      display: none;
+      background: white;
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      margin-bottom: 32px;
+    }
+    
+    .chemical-detail.active {
+      display: block;
+    }
+    
+    .back-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: #f1f5f9;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #475569;
+      cursor: pointer;
+      margin-bottom: 24px;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+    
+    .back-button:hover {
+      background: #e2e8f0;
+      transform: translateX(-4px);
+    }
+    
+    .emergency-card {
+      background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+      border: 3px solid #dc2626;
+      border-radius: 12px;
+      padding: 32px;
+      margin-bottom: 32px;
+    }
+    
+    .emergency-card h2 {
+      color: #991b1b;
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .emergency-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+    
+    .emergency-item {
+      background: white;
+      padding: 16px;
+      border-radius: 8px;
+      text-align: center;
+    }
+    
+    .emergency-item-icon {
+      font-size: 40px;
+      margin-bottom: 8px;
+    }
+    
+    .emergency-item-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #64748b;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    
+    .emergency-item-value {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1e293b;
+    }
+    
+    .detail-section {
+      margin-bottom: 32px;
+    }
+    
+    .detail-section h3 {
+      font-size: 24px;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 3px solid #e2e8f0;
+    }
+    
+    .info-box {
+      background: #f8fafc;
+      border-left: 4px solid #667eea;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+    
+    .info-box-title {
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 8px;
+      font-size: 16px;
+    }
+    
+    .info-box-content {
+      color: #475569;
+      line-height: 1.7;
+      font-size: 15px;
+    }
+    
+    .disposal-box {
+      background: #e0f2fe;
+      border-left: 4px solid #0284c7;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+    
+    .disposal-box-title {
+      font-weight: 700;
+      color: #075985;
+      margin-bottom: 8px;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .disposal-box-content {
+      color: #0c4a6e;
+      line-height: 1.7;
+      font-size: 15px;
+    }
+    
+    .statement-box {
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+    
+    .statement-code {
+      font-weight: 700;
+      color: #667eea;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+    
+    .statement-official {
+      color: #1e293b;
+      margin-bottom: 8px;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+    
+    .statement-student {
+      color: #64748b;
+      font-style: italic;
+      font-size: 14px;
+      padding-left: 16px;
+      border-left: 3px solid #cbd5e1;
+    }
+    
+    .citation {
+      color: #667eea;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    
+    .citation:hover {
+      text-decoration: underline;
+      color: #764ba2;
+    }
+    
+    .references-section {
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 24px;
+      margin-top: 32px;
+    }
+    
+    .references-section h4 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 16px;
+    }
+    
+    .reference-item {
+      margin-bottom: 12px;
+      padding-left: 24px;
+      position: relative;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #475569;
+    }
+    
+    .reference-item::before {
+      content: attr(data-ref);
+      position: absolute;
+      left: 0;
+      font-weight: 700;
+      color: #667eea;
+    }
+    
+    .reference-item a {
+      color: #667eea;
+      text-decoration: none;
+    }
+    
+    .reference-item a:hover {
+      text-decoration: underline;
+    }
+    
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 1000;
+      overflow-y: auto;
+      padding: 40px 20px;
+    }
+    
+    .modal.active {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+    }
+    
+    .modal-content {
+      background: white;
+      border-radius: 16px;
+      padding: 40px;
+      max-width: 900px;
+      width: 100%;
+      position: relative;
+      margin: auto;
+    }
+    
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: #f1f5f9;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+    
+    .modal-close:hover {
+      background: #e2e8f0;
+      transform: rotate(90deg);
+    }
+    
+    .modal h2 {
+      font-size: 32px;
+      font-weight: 800;
+      color: #1e293b;
+      margin-bottom: 24px;
+    }
+    
+    .poster-preview {
+      background: white;
+      border: 3px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 40px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    
+    .poster-title {
+      font-size: 36px;
+      font-weight: 900;
+      text-align: center;
+      margin-bottom: 24px;
+      color: #1e293b;
+    }
+    
+    .poster-section {
+      margin-bottom: 24px;
+    }
+    
+    .poster-section h4 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #e2e8f0;
+    }
+    
+    .poster-chemicals {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    
+    .poster-chemical {
+      background: #f8fafc;
+      padding: 16px;
+      border-radius: 8px;
+      border-left: 4px solid #667eea;
+    }
+    
+    .poster-chemical-name {
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 4px;
+    }
+    
+    .poster-chemical-formula {
+      font-size: 14px;
+      color: #64748b;
+      font-style: italic;
+    }
+    
+    .poster-ppe-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 12px;
+    }
+    
+    .poster-ppe-item {
+      text-align: center;
+      padding: 12px;
+      background: #f8fafc;
+      border-radius: 8px;
+    }
+    
+    .poster-ppe-icon {
+      font-size: 32px;
+      margin-bottom: 6px;
+    }
+    
+    .poster-ppe-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #475569;
+    }
+    
+    .print-button {
+      width: 100%;
+      padding: 16px;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+    
+    .print-button:hover {
+      background: #764ba2;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    }
+    
+    .planner-section {
+      margin-bottom: 24px;
+    }
+    
+    .planner-section h3 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 16px;
+    }
+    
+    .chemical-selector {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    
+    .chemical-checkbox {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px;
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .chemical-checkbox:hover {
+      background: white;
+      border-color: #667eea;
+    }
+    
+    .chemical-checkbox input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+    
+    .chemical-checkbox label {
+      cursor: pointer;
+      font-weight: 600;
+      color: #1e293b;
+      flex: 1;
+      font-size: 14px;
+    }
+    
+    .generate-plan-button {
+      width: 100%;
+      padding: 16px;
+      background: #10b981;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-bottom: 24px;
+      font-family: inherit;
+    }
+    
+    .generate-plan-button:hover {
+      background: #059669;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    }
+    
+    .safety-plan {
+      display: none;
+    }
+    
+    .safety-plan.active {
+      display: block;
+    }
+    
+    .plan-section {
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 20px;
+      border-left: 6px solid #667eea;
+    }
+    
+    .plan-section h4 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 12px;
+    }
+    
+    .plan-item {
+      background: white;
+      padding: 16px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .plan-item-title {
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 6px;
+      font-size: 15px;
+    }
+    
+    .plan-item-content {
+      color: #475569;
+      line-height: 1.6;
+      font-size: 14px;
+    }
+    
+    .warning-box {
+      background: #fef3c7;
+      border: 2px solid #f59e0b;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+    
+    .warning-box-title {
+      font-weight: 700;
+      color: #92400e;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 15px;
+    }
+    
+    .warning-box-content {
+      color: #78350f;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    
+    .footer {
+      background: white;
+      border-radius: 16px;
+      padding: 32px;
+      text-align: center;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+    }
+    
+    .footer p {
+      color: #64748b;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 32px;
+      }
+      
+      .chemicals-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .emergency-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .poster-chemicals {
+        grid-template-columns: 1fr;
+      }
+      
+      .poster-ppe-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .modal-content {
+        padding: 24px;
+      }
+      
+      .poster-preview {
+        padding: 24px;
+      }
+      
+      .stats-bar {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media print {
+      .app-wrapper {
+        background: white;
+      }
+      
+      .modal, .back-button, .print-button, .modal-close {
+        display: none !important;
+      }
+      
+      .poster-preview {
+        border: none;
+        box-shadow: none;
+        page-break-after: always;
+      }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="app-wrapper" id="appWrapper">
+   <div class="disclaimer-banner" id="disclaimerBanner">
+    Educational safety summary. Always consult your school's lab policy and the linked official SDS before use.
+   </div>
+   <div class="main-container">
+    <div class="header">
+     <h1 id="siteTitle">IB Lab MSDS Library</h1>
+     <p>Comprehensive safety and disposal information for 120+ chemicals used in Grade 11-12 IB Chemistry &amp; Biology. Based on official SDS sources, GHS classifications, and NIOSH guidance.</p>
+    </div>
+    <div class="stats-bar">
+     <div class="stat-item">
+      <div class="stat-number" id="totalChems">
+       0
+      </div>
+      <div class="stat-label">
+       Total Chemicals
+      </div>
+     </div>
+     <div class="stat-item">
+      <div class="stat-number" id="fullDetail">
+       5
+      </div>
+      <div class="stat-label">
+       Full Safety Profiles
+      </div>
+     </div>
+     <div class="stat-item">
+      <div class="stat-number" id="disposalInfo">
+       120+
+      </div>
+      <div class="stat-label">
+       With Disposal Info
+      </div>
+     </div>
+     <div class="stat-item">
+      <div class="stat-number" id="restricted">
+       20+
+      </div>
+      <div class="stat-label">
+       Restricted/Flagged
+      </div>
+     </div>
+    </div>
+    <div class="search-section">
+     <div class="search-box"><span class="search-icon">🔍</span> <input type="text" id="searchInput" placeholder="Search for a chemical (e.g., hydrochloric acid, ethanol, copper sulfate)...">
+     </div>
+     <div class="filter-chips" id="filterChips">
+      <div class="filter-chip" data-filter="all">
+       All Chemicals
+      </div>
+      <div class="filter-chip" data-filter="acid">
+       Acid
+      </div>
+      <div class="filter-chip" data-filter="base">
+       Base
+      </div>
+      <div class="filter-chip" data-filter="solvent">
+       Solvent
+      </div>
+      <div class="filter-chip" data-filter="oxidizer">
+       Oxidizer
+      </div>
+      <div class="filter-chip" data-filter="toxic">
+       Toxic
+      </div>
+      <div class="filter-chip" data-filter="corrosive">
+       Corrosive
+      </div>
+      <div class="filter-chip" data-filter="flammable">
+       Flammable
+      </div>
+      <div class="filter-chip" data-filter="environmental">
+       Environmental
+      </div>
+     </div>
+    </div>
+    <div class="tools-section">
+     <div class="tool-card" id="posterTool">
+      <div class="tool-icon">
+       📋
+      </div>
+      <h3>Lab Quick Posters</h3>
+      <p>Generate printable A4 safety posters for strong acids, strong bases, and other chemical categories with GHS pictograms and key precautions.</p>
+     </div>
+     <div class="tool-card" id="plannerTool">
+      <div class="tool-icon">
+       🛡️
+      </div>
+      <h3>Precaution Planner</h3>
+      <p>Select chemicals for your lab experiment and get a combined safety plan with PPE requirements, incompatibility warnings, and spill response.</p>
+     </div>
+    </div>
+    <div class="chemicals-grid" id="chemicalsGrid"></div>
+    <div class="chemical-detail" id="chemicalDetail"></div>
+    <div class="footer">
+     <p id="footerText">© 2024 IB Lab MSDS Library • For educational use only • Always follow your school's laboratory safety protocols</p>
+    </div>
+   </div>
+   <div class="modal" id="posterModal">
+    <div class="modal-content"><button class="modal-close" id="closePosterModal">×</button>
+     <h2>Lab Quick Posters</h2>
+     <p style="color: #64748b; margin-bottom: 24px;">Select a category to generate a printable A4 safety poster:</p>
+     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px;"><button class="filter-chip" style="padding: 16px; font-size: 16px;" onclick="generatePoster('strong-acids')">Strong Acids</button> <button class="filter-chip" style="padding: 16px; font-size: 16px;" onclick="generatePoster('strong-bases')">Strong Bases</button> <button class="filter-chip" style="padding: 16px; font-size: 16px;" onclick="generatePoster('flammables')">Flammable Solvents</button> <button class="filter-chip" style="padding: 16px; font-size: 16px;" onclick="generatePoster('oxidizers')">Oxidizers</button>
+     </div>
+     <div id="posterContent"></div>
+    </div>
+   </div>
+   <div class="modal" id="plannerModal">
+    <div class="modal-content"><button class="modal-close" id="closePlannerModal">×</button>
+     <h2>Precaution Planner</h2>
+     <p style="color: #64748b; margin-bottom: 24px;">Select chemicals you'll be using in your lab, then generate a comprehensive safety plan:</p>
+     <div class="planner-section">
+      <h3>Select Chemicals:</h3>
+      <div class="chemical-selector" id="chemicalSelector"></div>
+     </div><button class="generate-plan-button" id="generatePlanButton">Generate Safety Plan</button>
+     <div class="safety-plan" id="safetyPlan"></div>
+    </div>
+   </div>
+  </div>
+  <script>
+    const defaultConfig = {
+      site_title: "IB Lab MSDS Library",
+      disclaimer_text: "Educational safety summary. Always consult your school's lab policy and the linked official SDS before use.",
+      footer_text: "© 2024 IB Lab MSDS Library • For educational use only • Always follow your school's laboratory safety protocols"
+    };
+
+    const chemicalsDatabase = [
+      {
+        id: "hcl",
+        name: "Hydrochloric Acid",
+        formula: "HCl (aq)",
+        categories: ["acid", "corrosive"],
+        restricted: false,
+        pictograms: ["⚠️", "🧪"],
+        signalWord: "Danger",
+        overview: "Hydrochloric acid is a strong, highly corrosive mineral acid commonly used in titrations, pH demonstrations, and metal reactivity experiments.",
+        disposal: "Neutralize with sodium bicarbonate or sodium carbonate until pH 6-8. Verify neutral pH with indicator paper. Dilute neutralized solution and dispose down drain with copious water per local regulations. Never pour concentrated acid down drain.",
+        hazardStatements: [
+          {
+            code: "H314",
+            official: "Causes severe skin burns and eye damage.",
+            student: "Will burn your skin and eyes badly on contact. Even small splashes can cause serious injury."
+          },
+          {
+            code: "H335",
+            official: "May cause respiratory irritation.",
+            student: "Breathing in the fumes can irritate your nose, throat, and lungs."
+          }
+        ],
+        precautionaryStatements: [
+          {
+            code: "P280",
+            official: "Wear protective gloves/protective clothing/eye protection/face protection.",
+            student: "Always wear gloves, lab coat, and safety goggles when handling."
+          },
+          {
+            code: "P305+P351+P338",
+            official: "IF IN EYES: Rinse cautiously with water for several minutes. Remove contact lenses, if present and easy to do. Continue rinsing.",
+            student: "If acid splashes in your eyes, immediately rinse with water for at least 15 minutes. Get help right away."
+          },
+          {
+            code: "P303+P361+P353",
+            official: "IF ON SKIN (or hair): Remove/Take off immediately all contaminated clothing. Rinse skin with water/shower.",
+            student: "If acid gets on your skin, immediately remove contaminated clothing and rinse the area with lots of water."
+          }
+        ],
+        ppe: "Safety goggles, acid-resistant gloves (nitrile or neoprene), lab coat, closed-toe shoes. Work in fume hood when diluting or using concentrated solutions.",
+        handling: "Always add acid to water, NEVER water to acid. Use slow, controlled pouring. Keep container tightly closed when not in use.",
+        storage: "Store in cool, well-ventilated area away from bases, metals, and oxidizers. Use corrosion-resistant containers with secondary containment.",
+        incompatibilities: "NEVER mix with bases (e.g., NaOH, NH₃) - violent exothermic reaction. Keep away from active metals, cyanides, sulfides. Do not mix with bleach or oxidizers.",
+        firstAid: {
+          skin: "Immediately flush with water for 15+ minutes. Remove contaminated clothing. Seek medical attention.",
+          eyes: "Rinse immediately with water for 15+ minutes, lifting eyelids. Remove contact lenses. Get immediate medical help.",
+          inhalation: "Move to fresh air. If breathing is difficult, get medical help. Do not give anything by mouth if unconscious.",
+          ingestion: "DO NOT induce vomiting. Rinse mouth. Drink water or milk if conscious. Get immediate medical attention."
+        },
+        spill: "Evacuate area. Wear full PPE including face shield. Neutralize small spills with sodium bicarbonate. Absorb with inert material (sand, vermiculite). Dispose as hazardous waste. Large spills: contact safety officer.",
+        fire: "Non-combustible. In fire, releases toxic HCl gas. Use water spray to keep containers cool. Wear SCBA if fighting fire involving this chemical.",
+        ibUses: "Acid-base titrations (standardization), pH demonstrations, metal reactivity series experiments, qualitative analysis, preparation of chloride salts.",
+        citations: [
+          { id: 1, text: "Fisher Scientific SDS for Hydrochloric Acid 37%", url: "https://www.fishersci.com" },
+          { id: 2, text: "ECHA Classification: Skin Corr. 1B (H314)", url: "https://echa.europa.eu" },
+          { id: 3, text: "NIOSH Pocket Guide to Chemical Hazards: Hydrochloric Acid", url: "https://www.cdc.gov/niosh/npg/npgd0332.html" },
+          { id: 4, text: "GHS Pictogram Guide for Corrosive Substances", url: "https://www.osha.gov" }
+        ]
+      },
+      {
+        id: "h2so4",
+        name: "Sulfuric Acid",
+        formula: "H₂SO₄",
+        categories: ["acid", "corrosive", "oxidizer"],
+        restricted: false,
+        pictograms: ["⚠️", "🧪"],
+        signalWord: "Danger",
+        overview: "Sulfuric acid is a strong diprotic acid and powerful dehydrating agent. Concentrated solutions are extremely hazardous. Used in titrations and synthesis reactions.",
+        disposal: "Carefully neutralize with sodium carbonate or calcium hydroxide in small portions (exothermic reaction - generates heat!). Verify pH 6-8 with indicator paper. Dilute neutralized solution heavily and dispose down drain with copious water per local regulations. Concentrated solutions: use licensed hazardous waste contractor.",
+        hazardStatements: [
+          {
+            code: "H314",
+            official: "Causes severe skin burns and eye damage.",
+            student: "Extremely corrosive - will severely burn skin and eyes on contact. Concentrated acid is particularly dangerous."
+          },
+          {
+            code: "H335",
+            official: "May cause respiratory irritation.",
+            student: "Mist or vapors can irritate your breathing passages."
+          }
+        ],
+        precautionaryStatements: [
+          {
+            code: "P280",
+            official: "Wear protective gloves/protective clothing/eye protection/face protection.",
+            student: "Full PPE required: goggles, gloves, and lab coat are mandatory."
+          },
+          {
+            code: "P305+P351+P338",
+            official: "IF IN EYES: Rinse cautiously with water for several minutes. Remove contact lenses, if present and easy to do. Continue rinsing.",
+            student: "Eye contact is an emergency. Rinse immediately for 15+ minutes and get medical help fast."
+          },
+          {
+            code: "P310",
+            official: "Immediately call a POISON CENTER or doctor/physician.",
+            student: "Any significant exposure requires immediate medical attention."
+          }
+        ],
+        ppe: "Chemical splash goggles, acid-resistant gloves (butyl rubber recommended), lab coat, face shield for concentrated solutions. Use fume hood.",
+        handling: "CRITICAL: Always add acid to water slowly with stirring - never reverse (causes violent boiling). Dilution generates intense heat. Use heat-resistant glassware. Keep away from combustibles.",
+        storage: "Store in corrosion-resistant container with secondary containment. Cool, well-ventilated area. Separate from bases, metals, organics, and oxidizable materials.",
+        incompatibilities: "Reacts violently with water (when concentrated is added to water), bases, metals, carbides, chlorates, nitrates, picrates, permanganates, and organic materials. Can ignite combustibles on contact.",
+        firstAid: {
+          skin: "Immediately flush with copious water for 20+ minutes. Remove contaminated clothing carefully. Seek immediate medical attention - chemical burns can worsen rapidly.",
+          eyes: "Rinse immediately with water for 20+ minutes, holding eyelids open. Remove contacts. This is a medical emergency - get help immediately.",
+          inhalation: "Move to fresh air immediately. If breathing is difficult, administer oxygen if available. Get medical attention promptly.",
+          ingestion: "DO NOT induce vomiting - can cause further injury. Rinse mouth with water. Give water or milk to drink if conscious. Seek immediate emergency medical care."
+        },
+        spill: "Evacuate area immediately. Only trained personnel with full PPE (including face shield and apron) should respond. Neutralize SLOWLY with soda ash or lime - reaction is exothermic. Absorb liquid, collect in sealed containers. Ventilate area thoroughly.",
+        fire: "Non-flammable but contact with combustibles may cause fire. Toxic sulfur oxides released in fire. Use water spray from distance to cool containers. Do not get water inside containers.",
+        ibUses: "Diprotic acid titrations, sulfate preparation, dehydration reactions (demonstration only with extreme care), electrochemistry experiments, catalyst in esterification.",
+        concentrationNote: "Concentrated H₂SO₄ (95-98%) has different hazards than dilute solutions. Concentrated acid is a powerful oxidizer and dehydrating agent. School labs typically use ≤6M solutions for student experiments.",
+        citations: [
+          { id: 1, text: "Sigma-Aldrich SDS for Sulfuric Acid 95-98%", url: "https://www.sigmaaldrich.com" },
+          { id: 2, text: "ECHA Harmonized Classification: Skin Corr. 1A (H314)", url: "https://echa.europa.eu" },
+          { id: 3, text: "NIOSH Pocket Guide: Sulfuric Acid", url: "https://www.cdc.gov/niosh/npg/npgd0577.html" },
+          { id: 4, text: "OSHA Hazard Communication: Corrosive Chemicals", url: "https://www.osha.gov" }
+        ]
+      },
+      {
+        id: "hno3",
+        name: "Nitric Acid",
+        formula: "HNO₃",
+        categories: ["acid", "corrosive", "oxidizer"],
+        restricted: false,
+        pictograms: ["⚠️", "🧪", "🔥"],
+        signalWord: "Danger",
+        overview: "Nitric acid is a strong oxidizing acid. Concentrated solutions (>68%) are particularly hazardous. Used in metal reactivity experiments and qualitative analysis.",
+        disposal: "Carefully neutralize with sodium carbonate solution in fume hood - releases toxic nitrogen oxides (NOₓ). Verify pH 6-8. Dispose via licensed hazardous waste contractor. NEVER pour down drain without proper neutralization and local regulatory approval.",
+        hazardStatements: [
+          {
+            code: "H272",
+            official: "May intensify fire; oxidizer.",
+            student: "Can make fires worse and cause other materials to burn more easily."
+          },
+          {
+            code: "H314",
+            official: "Causes severe skin burns and eye damage.",
+            student: "Extremely corrosive - causes severe chemical burns to skin and eyes."
+          },
+          {
+            code: "H290",
+            official: "May be corrosive to metals.",
+            student: "Will corrode and dissolve many metals."
+          }
+        ],
+        precautionaryStatements: [
+          {
+            code: "P220",
+            official: "Keep/Store away from clothing/combustible materials.",
+            student: "Keep away from anything that can burn - this acid is a strong oxidizer."
+          },
+          {
+            code: "P280",
+            official: "Wear protective gloves/protective clothing/eye protection/face protection.",
+            student: "Full protective equipment required: goggles, gloves, lab coat."
+          },
+          {
+            code: "P303+P361+P353",
+            official: "IF ON SKIN (or hair): Remove/Take off immediately all contaminated clothing. Rinse skin with water/shower.",
+            student: "If it touches your skin, immediately remove affected clothing and rinse with lots of water."
+          },
+          {
+            code: "P305+P351+P338",
+            official: "IF IN EYES: Rinse cautiously with water for several minutes. Remove contact lenses, if present and easy to do. Continue rinsing.",
+            student: "Eye contact requires immediate 15+ minute rinse. This is an emergency."
+          }
+        ],
+        ppe: "Chemical splash goggles, acid-resistant gloves (butyl or neoprene), lab coat, face shield for concentrated solutions. Always use fume hood due to toxic nitrogen oxide fumes.",
+        handling: "Use only in fume hood - releases toxic NOₓ fumes especially when reacting with metals. Never heat concentrated acid. Keep away from organic materials, metals, and bases. Use glass or acid-resistant containers only.",
+        storage: "Store in cool, well-ventilated area in glass or approved plastic container. Separate from bases, metals, combustibles, and reducing agents. Secondary containment required.",
+        incompatibilities: "Reacts violently with bases, combustible materials, organic solvents (especially acetone and alcohols), reducing agents, metals. Can spontaneously ignite some organic materials. NEVER mix with hydrocarbons.",
+        firstAid: {
+          skin: "Immediately flush with water for 20+ minutes while removing contaminated clothing. Acid causes yellow staining of skin (xanthoproteic reaction). Seek immediate medical care.",
+          eyes: "Emergency situation. Rinse immediately with water for 20+ minutes, holding eyelids open. Remove contact lenses. Get emergency medical help.",
+          inhalation: "Move to fresh air immediately. Nitrogen oxide fumes are toxic. If breathing difficulty, administer oxygen. Get medical attention - delayed pulmonary edema is possible.",
+          ingestion: "DO NOT induce vomiting. Rinse mouth thoroughly. Give water or milk. Get immediate emergency medical attention - internal burns are severe."
+        },
+        spill: "Evacuate area. Full PPE with face shield required. Contain spill. Neutralize cautiously with sodium carbonate - vigorous reaction produces heat and NOₓ fumes. Work in well-ventilated area or fume hood. Absorb neutralized liquid. Dispose as hazardous waste.",
+        fire: "Non-combustible but strong oxidizer that intensifies fires. Produces toxic nitrogen oxides when heated. Use water spray from distance. Wear SCBA equipment.",
+        ibUses: "Qualitative analysis of metals (brown ring test for nitrates), metal reactivity demonstrations (observe gas evolution), preparation of nitrate salts, oxidation reactions (demonstration).",
+        concentrationNote: "Concentrated HNO₃ (≥68%, 'fuming' acid >90%) is significantly more dangerous - strong oxidizer, releases toxic fumes. School labs should use dilute solutions (2-6M) for student work. Concentrated acid demonstrations require special precautions.",
+        citations: [
+          { id: 1, text: "Fisher Scientific SDS for Nitric Acid 68-70%", url: "https://www.fishersci.com" },
+          { id: 2, text: "ECHA Classification: Ox. Liq. 3, Skin Corr. 1A (H272, H314)", url: "https://echa.europa.eu" },
+          { id: 3, text: "NIOSH Pocket Guide: Nitric Acid", url: "https://www.cdc.gov/niosh/npg/npgd0447.html" },
+          { id: 4, text: "GHS Guidance on Oxidizing Liquids", url: "https://www.osha.gov" },
+          { id: 5, text: "CDC ATSDR: Nitrogen Oxides Toxicity", url: "https://www.atsdr.cdc.gov" }
+        ]
+      },
+      {
+        id: "naoh",
+        name: "Sodium Hydroxide",
+        formula: "NaOH",
+        categories: ["base", "corrosive"],
+        restricted: false,
+        pictograms: ["🧪", "⚠️"],
+        signalWord: "Danger",
+        overview: "Sodium hydroxide (caustic soda) is a strong base commonly used in titrations, saponification, and pH adjustments. Highly corrosive to tissue - causes deep, painful burns.",
+        disposal: "Carefully neutralize with dilute acid (HCl, citric acid, or acetic acid) in small portions - exothermic reaction generates heat. Verify pH 6-8 with indicator paper. Dilute neutralized solution can be disposed down drain with copious water per local regulations. Concentrated solutions: use licensed hazardous waste contractor.",
+        hazardStatements: [
+          {
+            code: "H314",
+            official: "Causes severe skin burns and eye damage.",
+            student: "Extremely corrosive - will cause severe chemical burns to skin and eyes. Eye damage can be permanent."
+          },
+          {
+            code: "H290",
+            official: "May be corrosive to metals.",
+            student: "Can corrode metals like aluminum and zinc."
+          }
+        ],
+        precautionaryStatements: [
+          {
+            code: "P280",
+            official: "Wear protective gloves/protective clothing/eye protection/face protection.",
+            student: "Always wear goggles, gloves, and lab coat. Eye protection is critical."
+          },
+          {
+            code: "P305+P351+P338",
+            official: "IF IN EYES: Rinse cautiously with water for several minutes. Remove contact lenses, if present and easy to do. Continue rinsing.",
+            student: "Eye contact with base is extremely serious. Rinse immediately for 20+ minutes and get emergency medical help."
+          },
+          {
+            code: "P303+P361+P353",
+            official: "IF ON SKIN (or hair): Remove/Take off immediately all contaminated clothing. Rinse skin with water/shower.",
+            student: "Base burns feel slippery and may not hurt immediately but are very serious. Rinse thoroughly with water."
+          },
+          {
+            code: "P310",
+            official: "Immediately call a POISON CENTER or doctor/physician.",
+            student: "Significant exposure requires immediate medical attention."
+          }
+        ],
+        ppe: "Chemical splash goggles (critical), alkali-resistant gloves (nitrile or neoprene), lab coat, closed-toe shoes. Face shield recommended for concentrated solutions or when preparing solutions.",
+        handling: "Dissolving solid NaOH in water is highly exothermic - always add solid slowly to water with stirring, never reverse. Use heat-resistant glassware. Keep container tightly closed - absorbs moisture and CO₂ from air. Avoid creating dust when handling solids.",
+        storage: "Store in tightly sealed container in cool, dry area. Keep away from acids, metals, moisture. Do not store in glass containers long-term (can etch glass). Use plastic containers. Secondary containment recommended.",
+        incompatibilities: "Reacts violently with acids (exothermic). Reacts with metals (Al, Zn, Sn) producing flammable hydrogen gas. Keep away from halogenated compounds, nitro compounds. Will attack glass over time.",
+        firstAid: {
+          skin: "Base burns are particularly dangerous - tissue damage continues as long as base is present. Immediately flush with large amounts of water for 20+ minutes while removing contaminated clothing. Seek medical attention - burns may worsen after initial exposure.",
+          eyes: "CRITICAL EMERGENCY. Rinse immediately with water for 20+ minutes, holding eyelids open. Remove contact lenses. Alkali burns to eyes are extremely serious and can cause permanent blindness. Get immediate emergency medical care.",
+          inhalation: "Move to fresh air. If exposed to dust or mist and breathing difficulty develops, get medical attention. Base aerosols can damage respiratory tract.",
+          ingestion: "DO NOT induce vomiting - can cause further injury. Rinse mouth. Give water or milk to drink if conscious (dilutes base). Get immediate emergency medical attention - severe internal burns likely."
+        },
+        spill: "Wear full PPE. Avoid dust generation with solids. Sweep up solid spills carefully, place in sealed container. For solutions: contain spill, neutralize carefully with dilute acid (HCl or citric acid solution). Verify neutral pH before disposal. Mop up with water.",
+        fire: "Non-combustible. However, contact with water releases heat. In fire, dissolves releasing heat. Keep containers cool with water spray.",
+        ibUses: "Base titrations (standardization with KHP), saponification of esters (soap making), pH demonstrations, qualitative tests, preparation of sodium salts.",
+        citations: [
+          { id: 1, text: "Honeywell SDS for Sodium Hydroxide Pellets", url: "https://www.honeywell.com" },
+          { id: 2, text: "ECHA Harmonized Classification: Skin Corr. 1A (H314)", url: "https://echa.europa.eu" },
+          { id: 3, text: "NIOSH Pocket Guide: Sodium Hydroxide", url: "https://www.cdc.gov/niosh/npg/npgd0565.html" },
+          { id: 4, text: "CDC: Chemical Burn Treatment Guidelines", url: "https://www.cdc.gov" }
+        ]
+      },
+      {
+        id: "ethanol",
+        name: "Ethanol",
+        formula: "C₂H₅OH",
+        categories: ["solvent", "flammable"],
+        restricted: false,
+        pictograms: ["🔥"],
+        signalWord: "Danger",
+        overview: "Ethanol is a common organic solvent and fuel. Highly flammable liquid and vapor. Used in chromatography, extractions, and as a general lab solvent.",
+        disposal: "Small quantities (<100mL) can be evaporated in fume hood. Can also be burned in approved waste solvent incinerator. Larger quantities: dispose through licensed hazardous waste contractor as flammable solvent. Dilute ethanol (<10%) can be disposed down drain in some jurisdictions - check local regulations.",
+        hazardStatements: [
+          {
+            code: "H225",
+            official: "Highly flammable liquid and vapour.",
+            student: "Very easily catches fire. Vapors can ignite from a spark or hot surface even at room temperature."
+          },
+          {
+            code: "H319",
+            official: "Causes serious eye irritation.",
+            student: "Can irritate eyes causing redness and discomfort."
+          }
+        ],
+        precautionaryStatements: [
+          {
+            code: "P210",
+            official: "Keep away from heat/sparks/open flames/hot surfaces. No smoking.",
+            student: "Keep away from any ignition sources - no Bunsen burners, hot plates, or sparks nearby."
+          },
+          {
+            code: "P233",
+            official: "Keep container tightly closed.",
+            student: "Always keep the container closed to prevent vapor buildup and evaporation."
+          },
+          {
+            code: "P305+P351+P338",
+            official: "IF IN EYES: Rinse cautiously with water for several minutes. Remove contact lenses, if present and easy to do. Continue rinsing.",
+            student: "If ethanol splashes in eyes, rinse with water for several minutes."
+          },
+          {
+            code: "P403+P235",
+            official: "Store in a well-ventilated place. Keep cool.",
+            student: "Store in a cool, well-ventilated area away from heat sources."
+          }
+        ],
+        ppe: "Safety goggles, nitrile gloves, lab coat. Work in well-ventilated area or fume hood when using large quantities.",
+        handling: "Eliminate all ignition sources before use. Ground containers when transferring. Use spark-proof tools and equipment. Vapors are heavier than air and can travel to ignition sources. Keep containers closed. Use only in well-ventilated areas.",
+        storage: "Store in cool, well-ventilated area away from heat and ignition sources. Keep away from oxidizers. Use explosion-proof electrical equipment in storage areas. Keep containers tightly closed. Ground containers during transfer.",
+        incompatibilities: "Keep away from oxidizing agents (H₂O₂, permanganates, chromates, nitric acid), strong acids, and alkali metals. Can react violently with oxidizers.",
+        firstAid: {
+          skin: "Wash with soap and water. Remove contaminated clothing. Prolonged contact can cause drying and irritation.",
+          eyes: "Rinse immediately with water for several minutes. Remove contact lenses if present. If irritation persists, seek medical attention.",
+          inhalation: "Move to fresh air. If symptoms develop (headache, dizziness, nausea), seek medical attention. High concentrations can cause CNS depression.",
+          ingestion: "Rinse mouth. Do NOT induce vomiting. Seek medical attention if ingested in quantity. Can cause intoxication and CNS depression."
+        },
+        spill: "Eliminate all ignition sources. Ventilate area. Absorb with inert material (vermiculite, sand). Collect in sealable containers. Clean area with water. Dispose as flammable waste.",
+        fire: "HIGHLY FLAMMABLE - vapors may form explosive mixtures with air. Use alcohol-resistant foam, CO₂, or dry chemical extinguishers. Water may be ineffective but can be used to cool containers. Firefighters should wear SCBA.",
+        ibUses: "General solvent for organic chemistry, chromatography (TLC, paper), extraction solvent, fuel for spirit burners (in approved burners), indicator dissolution, cleaning glassware.",
+        citations: [
+          { id: 1, text: "Sigma-Aldrich SDS for Ethanol ≥99.5%", url: "https://www.sigmaaldrich.com" },
+          { id: 2, text: "ECHA Classification: Flam. Liq. 2 (H225)", url: "https://echa.europa.eu" },
+          { id: 3, text: "NIOSH Pocket Guide: Ethyl Alcohol", url: "https://www.cdc.gov/niosh/npg/npgd0249.html" },
+          { id: 4, text: "OSHA Flammable Liquids Standard", url: "https://www.osha.gov" }
+        ]
+      }
+    ];
+
+    // Expanded chemicals database with disposal information
+    const additionalChemicals = [
+      // Continue with existing entries...
+      { id: "methanol", name: "Methanol", formula: "CH₃OH", categories: ["solvent", "flammable", "toxic"], pictograms: ["🔥", "☠️"], restricted: false, disposal: "Hazardous waste only - toxic and flammable. Can be burned in approved incinerator with exhaust scrubbing. NEVER pour down drain." },
+      { id: "acetone", name: "Acetone", formula: "(CH₃)₂CO", categories: ["solvent", "flammable"], pictograms: ["🔥"], restricted: false, disposal: "Evaporate in fume hood (small quantities) or dispose as flammable waste through licensed contractor." },
+      { id: "h2o2", name: "Hydrogen Peroxide (3-30%)", formula: "H₂O₂", categories: ["oxidizer", "corrosive"], pictograms: ["🔥", "🧪"], restricted: false, disposal: "Dilute to <5%. Decompose with MnO₂ catalyst or ferrous sulfate. Neutralized solution can be poured down drain with water." },
+      
+      // ACIDS - Additional
+      { id: "acetic-glacial", name: "Acetic Acid (Glacial)", formula: "CH₃COOH", categories: ["acid", "corrosive", "flammable"], pictograms: ["🔥", "🧪"], restricted: false, disposal: "Dilute and neutralize with sodium carbonate. Dispose down drain with water." },
+      { id: "phosphoric", name: "Phosphoric Acid", formula: "H₃PO₄", categories: ["acid", "corrosive"], pictograms: ["🧪"], restricted: false, disposal: "Neutralize with sodium carbonate. Dispose as hazardous waste or down drain if dilute." },
+      { id: "citric", name: "Citric Acid", formula: "C₆H₈O₇", categories: ["acid"], pictograms: ["⚠️"], restricted: false, disposal: "Neutralize with sodium carbonate. Safe to dispose down drain with water." },
+      { id: "oxalic", name: "Oxalic Acid", formula: "H₂C₂O₄", categories: ["acid", "toxic"], pictograms: ["☠️"], restricted: false, disposal: "Neutralize carefully. Dispose as hazardous waste - do NOT down drain." },
+      { id: "boric", name: "Boric Acid", formula: "H₃BO₃", categories: ["acid"], pictograms: ["⚠️"], restricted: false, disposal: "Neutralize with sodium carbonate. Dispose down drain with water." },
+      { id: "formic", name: "Formic Acid", formula: "HCOOH", categories: ["acid", "corrosive"], pictograms: ["🧪"], restricted: false, disposal: "Dilute and neutralize with sodium carbonate. Dispose down drain." },
+      { id: "lactic", name: "Lactic Acid", formula: "C₃H₆O₃", categories: ["acid"], pictograms: ["⚠️"], restricted: false, disposal: "Neutralize with sodium carbonate. Dispose down drain." },
+      { id: "tartaric", name: "Tartaric Acid", formula: "C₄H₆O₆", categories: ["acid"], pictograms: ["⚠️"], restricted: false, disposal: "Neutralize with sodium carbonate. Dispose down drain." },
+      { id: "hydrofluoric", name: "Hydrofluoric Acid", formula: "HF", categories: ["acid", "corrosive", "toxic"], pictograms: ["☠️", "🧪"], restricted: true, disposal: "HAZMAT disposal only - never down drain. Requires calcium treatment and specialized disposal." },
+      { id: "perchloric", name: "Perchloric Acid", formula: "HClO₄", categories: ["acid", "oxidizer"], pictograms: ["🔥", "🧪"], restricted: true, disposal: "Dilute carefully in fume hood. Neutralize. Hazardous waste only." },
+      { id: "sulfurous", name: "Sulfurous Acid", formula: "H₂SO₃", categories: ["acid"], pictograms: ["⚠️"], restricted: false, disposal: "Neutralize with sodium carbonate. Dispose down drain." },
+      
+      // BASES - Additional
+      { id: "nh3", name: "Ammonia Solution", formula: "NH₃(aq)", categories: ["base", "toxic"], pictograms: ["☠️"], restricted: false, disposal: "Neutralize with dilute acid in fume hood. Dispose down drain with water." },
+      { id: "ca-oh", name: "Calcium Hydroxide", formula: "Ca(OH)₂", categories: ["base"], pictograms: ["⚠️"], restricted: false, disposal: "Neutralize with dilute acid. Filter solids. Dispose down drain." },
+      { id: "koh", name: "Potassium Hydroxide", formula: "KOH", categories: ["base", "corrosive"], pictograms: ["🧪"], restricted: false, disposal: "Carefully neutralize with dilute acid. Dispose down drain with copious water." },
+      { id: "na2co3", name: "Sodium Carbonate", formula: "Na₂CO₃", categories: ["base"], pictograms: ["⚠️"], restricted: false, disposal: "Safe to dispose down drain with water in moderate amounts." },
+      { id: "nahco3", name: "Sodium Bicarbonate", formula: "NaHCO₃", categories: [], pictograms: [], restricted: false, disposal: "Safe to dispose down drain with water." },
+      { id: "k2co3", name: "Potassium Carbonate", formula: "K₂CO₃", categories: ["base"], pictograms: ["⚠️"], restricted: false, disposal: "Dissolve in water. Dispose down drain." },
+      { id: "mg-oh", name: "Magnesium Hydroxide", formula: "Mg(OH)₂", categories: ["base"], pictograms: [], restricted: false, disposal: "Neutralize with dilute acid. Dispose down drain." },
+      { id: "na3po4", name: "Sodium Phosphate", formula: "Na₃PO₄", categories: ["base"], pictograms: ["⚠️"], restricted: false, disposal: "Dispose down drain with water - avoid large quantities (eutrophication concern)." },
+      { id: "sodium-acetate", name: "Sodium Acetate", formula: "CH₃COONa", categories: [], pictograms: [], restricted: false, disposal: "Safe to dispose down drain with water." },
+      { id: "cao", name: "Calcium Oxide", formula: "CaO", categories: ["base", "corrosive"], pictograms: ["🧪"], restricted: false, disposal: "Add slowly to water (exothermic!). Neutralize. Dispose down drain." },
+      
+      // ORGANIC SOLVENTS - Additional
+      { id: "isopropanol", name: "Isopropanol", formula: "(CH₃)₂CHOH", categories: ["solvent", "flammable"], pictograms: ["🔥"], restricted: false, disposal: "Evaporate in fume hood or dispose as flammable waste." },
+      { id: "hexane", name: "Hexane", formula: "C₆H₁₄", categories: ["solvent", "flammable", "toxic"], pictograms: ["🔥", "☠️", "🐟"], restricted: false, disposal: "Hazardous waste only - toxic to aquatic life. Never down drain." },
+      { id: "cyclohexane", name: "Cyclohexane", formula: "C₆H₁₂", categories: ["solvent", "flammable"], pictograms: ["🔥"], restricted: false, disposal: "Dispose as flammable hazardous waste." },
+      { id: "toluene", name: "Toluene", formula: "C₇H₈", categories: ["solvent", "flammable", "toxic"], pictograms: ["🔥", "⚠️"], restricted: false, disposal: "Hazardous waste only - toxic and flammable." },
+      { id: "benzene", name: "Benzene", formula: "C₆H₆", categories: ["solvent", "flammable", "toxic"], pictograms: ["🔥", "☠️"], restricted: true, disposal: "CARCINOGEN - hazardous waste only. Avoid use in schools." },
+      { id: "xylene", name: "Xylene", formula: "C₈H₁₀", categories: ["solvent", "flammable"], pictograms: ["🔥"], restricted: false, disposal: "Hazardous waste - toxic, flammable." },
+      { id: "diethyl-ether", name: "Diethyl Ether", formula: "(C₂H₅)₂O", categories: ["solvent", "flammable"], pictograms: ["🔥"], restricted: true, disposal: "Hazardous waste - peroxide former, extremely flammable." },
+      { id: "chloroform", name: "Chloroform", formula: "CHCl₃", categories: ["solvent", "toxic"], pictograms: ["☠️"], restricted: true, disposal: "Hazardous waste only - suspected carcinogen. Never down drain." },
+      { id: "dcm", name: "Dichloromethane", formula: "CH₂Cl₂", categories: ["solvent", "toxic"], pictograms: ["⚠️"], restricted: false, disposal: "Hazardous waste - volatile, toxic." },
+      { id: "ethyl-acetate", name: "Ethyl Acetate", formula: "CH₃COOC₂H₅", categories: ["solvent", "flammable"], pictograms: ["🔥"], restricted: false, disposal: "Evaporate in fume hood or dispose as flammable waste." },
+      { id: "phenol", name: "Phenol", formula: "C₆H₅OH", categories: ["toxic", "corrosive"], pictograms: ["☠️", "🧪"], restricted: false, disposal: "Hazardous waste only - toxic, corrosive. Never down drain." },
+      { id: "formaldehyde", name: "Formaldehyde Solution", formula: "CH₂O", categories: ["toxic"], pictograms: ["☠️", "🧪"], restricted: true, disposal: "Hazardous waste - carcinogen. Requires special disposal." },
+      { id: "petroleum-ether", name: "Petroleum Ether", formula: "Mixed alkanes", categories: ["solvent", "flammable"], pictograms: ["🔥"], restricted: false, disposal: "Hazardous waste - flammable." },
+      { id: "acetic-anhydride", name: "Acetic Anhydride", formula: "(CH₃CO)₂O", categories: ["corrosive", "flammable"], pictograms: ["🔥", "🧪"], restricted: false, disposal: "Hydrolyze carefully with water. Neutralize. Dispose down drain." },
+      
+      // OXIDIZERS - Additional
+      { id: "kmno4", name: "Potassium Permanganate", formula: "KMnO₄", categories: ["oxidizer"], pictograms: ["🔥"], restricted: false, disposal: "Reduce with sodium bisulfite. Dispose as hazardous waste - stains badly." },
+      { id: "k2cr2o7", name: "Potassium Dichromate", formula: "K₂Cr₂O₇", categories: ["oxidizer", "toxic"], pictograms: ["🔥", "☠️", "🐟"], restricted: true, disposal: "CARCINOGEN - reduce to Cr(III). Precipitate. Hazardous waste only." },
+      { id: "naocl", name: "Sodium Hypochlorite", formula: "NaOCl", categories: ["oxidizer", "corrosive"], pictograms: ["🧪"], restricted: false, disposal: "Dilute heavily. Dispose down drain - never mix with acids or ammonia." },
+      { id: "kclo3", name: "Potassium Chlorate", formula: "KClO₃", categories: ["oxidizer"], pictograms: ["🔥", "💥"], restricted: true, disposal: "Reduce with sodium bisulfite. Dispose as hazardous waste." },
+      { id: "nh4no3", name: "Ammonium Nitrate", formula: "NH₄NO₃", categories: ["oxidizer"], pictograms: ["🔥"], restricted: true, disposal: "Dissolve in water. Dispose in small quantities down drain (regulated)." },
+      { id: "agno3", name: "Silver Nitrate", formula: "AgNO₃", categories: ["oxidizer", "corrosive"], pictograms: ["🔥", "🧪", "🐟"], restricted: false, disposal: "Precipitate silver as AgCl. Filter. Recover silver. Never down drain." },
+      { id: "iodine", name: "Iodine Crystals", formula: "I₂", categories: ["oxidizer", "toxic"], pictograms: ["☠️"], restricted: false, disposal: "Reduce with sodium thiosulfate. Dispose down drain." },
+      { id: "br2-water", name: "Bromine Water", formula: "Br₂", categories: ["oxidizer", "toxic", "corrosive"], pictograms: ["☠️", "🧪"], restricted: true, disposal: "Neutralize with sodium thiosulfate in fume hood. Hazardous waste." },
+      { id: "na2o2", name: "Sodium Peroxide", formula: "Na₂O₂", categories: ["oxidizer", "corrosive"], pictograms: ["🔥", "🧪"], restricted: false, disposal: "Add slowly to water (exothermic!). Neutralize. Dispose down drain." },
+      { id: "cl2-water", name: "Chlorine Water", formula: "Cl₂", categories: ["oxidizer", "toxic"], pictograms: ["☠️", "🧪"], restricted: false, disposal: "Neutralize with sodium thiosulfate. Dispose down drain." },
+      { id: "naclo3", name: "Sodium Chlorate", formula: "NaClO₃", categories: ["oxidizer"], pictograms: ["🔥"], restricted: false, disposal: "Reduce with sodium bisulfite. Hazardous waste." },
+      
+      // SALTS - Expanded
+      { id: "nacl", name: "Sodium Chloride", formula: "NaCl", categories: [], pictograms: [], restricted: false, disposal: "Safe to dispose down drain with water." },
+      { id: "kno3", name: "Potassium Nitrate", formula: "KNO₃", categories: ["oxidizer"], pictograms: ["🔥"], restricted: false, disposal: "Dispose down drain in small quantities with water." },
+      { id: "cuso4", name: "Copper(II) Sulfate", formula: "CuSO₄", categories: ["toxic", "environmental"], pictograms: ["⚠️", "🐟"], restricted: false, disposal: "Precipitate as Cu(OH)₂. Dispose as hazardous waste. Never down drain." },
+      { id: "znso4", name: "Zinc Sulfate", formula: "ZnSO₄", categories: ["environmental"], pictograms: ["🐟"], restricted: false, disposal: "Precipitate as Zn(OH)₂. Hazardous waste - toxic to aquatic life." },
+      { id: "feso4", name: "Iron(II) Sulfate", formula: "FeSO₄", categories: [], pictograms: ["⚠️"], restricted: false, disposal: "Oxidize to Fe(III). Precipitate. Hazardous waste or down drain if dilute." },
+      { id: "fecl3", name: "Iron(III) Chloride", formula: "FeCl₃", categories: ["corrosive"], pictograms: ["🧪"], restricted: false, disposal: "Neutralize with sodium carbonate. Dispose down drain." },
+      { id: "cacl2", name: "Calcium Chloride", formula: "CaCl₂", categories: [], pictograms: ["⚠️"], restricted: false, disposal: "Dispose down drain with water." },
+      { id: "mgso4", name: "Magnesium Sulfate", formula: "MgSO₄", categories: [], pictograms: [], restricted: false, disposal: "Safe to dispose down drain with water." },
+      { id: "bacl2", name: "Barium Chloride", formula: "BaCl₂", categories: ["toxic"], pictograms: ["☠️"], restricted: true, disposal: "Precipitate as BaSO₄. Hazardous waste - highly toxic." },
+      { id: "pb-nitrate", name: "Lead(II) Nitrate", formula: "Pb(NO₃)₂", categories: ["toxic", "environmental"], pictograms: ["☠️", "🐟"], restricted: true, disposal: "Precipitate as PbSO₄. Hazardous waste only - never down drain." },
+      { id: "na2s2o3", name: "Sodium Thiosulfate", formula: "Na₂S₂O₃", categories: [], pictograms: [], restricted: false, disposal: "Safe to dispose down drain." },
+      { id: "na2so3", name: "Sodium Sulfite", formula: "Na₂SO₃", categories: [], pictograms: ["⚠️"], restricted: false, disposal: "Dispose down drain with water." },
+      { id: "na2so4", name: "Sodium Sulfate", formula: "Na₂SO₄", categories: [], pictograms: [], restricted: false, disposal: "Safe to dispose down drain." },
+      { id: "nh4cl", name: "Ammonium Chloride", formula: "NH₄Cl", categories: [], pictograms: ["⚠️"], restricted: false, disposal: "Dispose down drain with water." },
+      { id: "ki", name: "Potassium Iodide", formula: "KI", categories: [], pictograms: [], restricted: false, disposal: "Dispose down drain with water." },
+      { id: "kbr", name: "Potassium Bromide", formula: "KBr", categories: [], pictograms: [], restricted: false, disposal: "Dispose down drain." },
+      { id: "caco3", name: "Calcium Carbonate", formula: "CaCO₃", categories: [], pictograms: [], restricted: false, disposal: "Can be disposed in trash or down drain." },
+      { id: "nano2", name: "Sodium Nitrite", formula: "NaNO₂", categories: ["oxidizer", "toxic"], pictograms: ["☠️", "🔥"], restricted: true, disposal: "Oxidize to nitrate. Hazardous waste - toxic." },
+      { id: "al2-so4", name: "Aluminum Sulfate", formula: "Al₂(SO₄)₃", categories: [], pictograms: ["⚠️"], restricted: false, disposal: "Neutralize. Dispose down drain." },
+      { id: "niso4", name: "Nickel(II) Sulfate", formula: "NiSO₄", categories: ["toxic"], pictograms: ["☠️", "⚠️"], restricted: true, disposal: "Precipitate as Ni(OH)₂. Hazardous waste - carcinogenic." },
+      
+      // INDICATORS
+      { id: "phenolphthalein", name: "Phenolphthalein", formula: "C₂₀H₁₄O₄", categories: ["toxic"], pictograms: ["⚠️"], restricted: false, disposal: "Dispose as organic waste - not down drain in large quantities." },
+      { id: "methyl-orange", name: "Methyl Orange", formula: "C₁₄H₁₄N₃NaO₃S", categories: [], pictograms: [], restricted: false, disposal: "Small quantities down drain or as organic waste." },
+      { id: "btb", name: "Bromothymol Blue", formula: "C₂₇H₂₈Br₂O₅S", categories: [], pictograms: [], restricted: false, disposal: "Dispose down drain in small quantities." },
+      { id: "universal", name: "Universal Indicator", formula: "Mixed dyes", categories: [], pictograms: [], restricted: false, disposal: "Dispose down drain in small quantities." },
+      { id: "litmus", name: "Litmus Solution", formula: "Natural dye", categories: [], pictograms: [], restricted: false, disposal: "Dispose down drain." },
+      { id: "benedict", name: "Benedict's Solution", formula: "Cu²⁺/citrate", categories: [], pictograms: ["⚠️"], restricted: false, disposal: "Contains copper - precipitate copper. Hazardous waste." },
+      { id: "fehling", name: "Fehling's Solution", formula: "Cu²⁺/tartrate", categories: ["corrosive"], pictograms: ["🧪"], restricted: false, disposal: "Contains copper and NaOH - precipitate copper. Hazardous waste." },
+      { id: "biuret", name: "Biuret Reagent", formula: "Cu²⁺/NaOH", categories: ["corrosive"], pictograms: ["🧪"], restricted: false, disposal: "Neutralize. Precipitate copper. Hazardous waste." },
+      { id: "tollens", name: "Tollens' Reagent", formula: "[Ag(NH₃)₂]⁺", categories: ["oxidizer"], pictograms: ["⚠️"], restricted: true, disposal: "Use immediately. Do NOT store - explosive residue risk. Precipitate silver." },
+      { id: "ninhydrin", name: "Ninhydrin", formula: "C₉H₆O₄", categories: [], pictograms: ["⚠️"], restricted: false, disposal: "Organic waste or evaporate in fume hood." },
+      
+      // BIOCHEMISTRY
+      { id: "glucose", name: "Glucose", formula: "C₆H₁₂O₆", categories: [], pictograms: [], restricted: false, disposal: "Biodegradable - safe down drain." },
+      { id: "sucrose", name: "Sucrose", formula: "C₁₂H₂₂O₁₁", categories: [], pictograms: [], restricted: false, disposal: "Biodegradable - safe down drain." },
+      { id: "starch", name: "Starch", formula: "(C₆H₁₀O₅)ₙ", categories: [], pictograms: [], restricted: false, disposal: "Biodegradable - trash or down drain." },
+      { id: "lipase", name: "Lipase Enzyme", formula: "Enzyme", categories: [], pictograms: [], restricted: false, disposal: "Biodegradable - down drain or trash." },
+      { id: "amylase", name: "Amylase Enzyme", formula: "Enzyme", categories: [], pictograms: [], restricted: false, disposal: "Biodegradable - down drain or trash." },
+      { id: "catalase", name: "Catalase Enzyme", formula: "Enzyme", categories: [], pictograms: [], restricted: false, disposal: "Biodegradable - down drain or trash." },
+      { id: "yeast", name: "Yeast", formula: "S. cerevisiae", categories: [], pictograms: [], restricted: false, disposal: "Autoclave or add bleach to kill. Trash or down drain." },
+      { id: "agar", name: "Agar", formula: "Polysaccharide", categories: [], pictograms: [], restricted: false, disposal: "Autoclave if contaminated. Trash - do NOT pour down drain (clogs)." },
+      { id: "saline", name: "Saline Solution", formula: "0.9% NaCl", categories: [], pictograms: [], restricted: false, disposal: "Safe down drain." },
+      { id: "buffer", name: "Buffer Solutions", formula: "Various", categories: [], pictograms: [], restricted: false, disposal: "Down drain if dilute and non-toxic." },
+      { id: "urea", name: "Urea", formula: "CH₄N₂O", categories: [], pictograms: [], restricted: false, disposal: "Biodegradable - down drain." },
+      { id: "glycine", name: "Glycine", formula: "C₂H₅NO₂", categories: [], pictograms: [], restricted: false, disposal: "Down drain or biodegradable waste." },
+      { id: "albumin", name: "Albumin", formula: "Protein", categories: [], pictograms: [], restricted: false, disposal: "Biodegradable - down drain." },
+      
+      // STAINS
+      { id: "methylene-blue", name: "Methylene Blue", formula: "C₁₆H₁₈ClN₃S", categories: [], pictograms: ["⚠️"], restricted: false, disposal: "Small quantities down drain or organic waste - stains badly." },
+      { id: "safranin", name: "Safranin", formula: "C₂₀H₁₉ClN₄", categories: [], pictograms: [], restricted: false, disposal: "Down drain in small quantities." },
+      { id: "crystal-violet", name: "Crystal Violet", formula: "C₂₅H₃₀ClN₃", categories: ["toxic"], pictograms: ["⚠️"], restricted: false, disposal: "Organic waste - potential carcinogen." },
+      { id: "eosin", name: "Eosin Y", formula: "C₂₀H₆Br₄Na₂O₅", categories: [], pictograms: ["⚠️"], restricted: false, disposal: "Down drain in small quantities." },
+      { id: "hematoxylin", name: "Hematoxylin", formula: "C₁₆H₁₄O₆", categories: [], pictograms: [], restricted: false, disposal: "Organic waste or down drain in small quantities." },
+      { id: "sudan-iii", name: "Sudan III", formula: "C₂₂H₁₆N₄O", categories: [], pictograms: [], restricted: false, disposal: "Organic waste." },
+      { id: "iodine-ki", name: "Iodine-KI Solution", formula: "I₂/KI", categories: ["toxic"], pictograms: ["⚠️"], restricted: false, disposal: "Neutralize with sodium thiosulfate. Down drain." },
+      
+      // MISC
+      { id: "sodium-silicate", name: "Sodium Silicate", formula: "Na₂SiO₃", categories: ["corrosive"], pictograms: ["🧪"], restricted: false, disposal: "Neutralize with acid. Down drain." },
+      { id: "borax", name: "Borax", formula: "Na₂B₄O₇", categories: ["toxic"], pictograms: ["⚠️"], restricted: false, disposal: "Down drain with water in moderate amounts." },
+      { id: "glycerol", name: "Glycerol", formula: "C₃H₈O₃", categories: [], pictograms: [], restricted: false, disposal: "Biodegradable - safe down drain." },
+      
+      // HAZARDOUS/RESTRICTED (for education/awareness)
+      { id: "mercury", name: "Mercury (Elemental)", formula: "Hg", categories: ["toxic", "environmental"], pictograms: ["☠️", "🐟"], restricted: true, disposal: "NEVER dispose - requires specialized mercury waste contractor. Highly regulated." },
+      { id: "hgcl2", name: "Mercury(II) Chloride", formula: "HgCl₂", categories: ["toxic"], pictograms: ["☠️", "🐟"], restricted: true, disposal: "Hazardous waste only - extremely toxic mercury compound." },
+      { id: "nacn", name: "Sodium Cyanide", formula: "NaCN", categories: ["toxic"], pictograms: ["☠️"], restricted: true, disposal: "THEORETICAL ONLY - requires alkaline chlorination. Hazardous waste contractor." },
+      { id: "kcn", name: "Potassium Cyanide", formula: "KCN", categories: ["toxic"], pictograms: ["☠️"], restricted: true, disposal: "THEORETICAL ONLY - requires alkaline chlorination. Hazardous waste contractor." },
+      { id: "as2o3", name: "Arsenic Trioxide", formula: "As₂O₃", categories: ["toxic"], pictograms: ["☠️", "🐟"], restricted: true, disposal: "Hazardous waste - highly toxic, carcinogenic." },
+      { id: "cr6", name: "Chromium(VI) Compounds", formula: "CrO₄²⁻", categories: ["toxic", "oxidizer"], pictograms: ["☠️", "🔥"], restricted: true, disposal: "Reduce to Cr(III). Precipitate. Hazardous waste - carcinogenic." },
+      { id: "ccl4", name: "Carbon Tetrachloride", formula: "CCl₄", categories: ["toxic"], pictograms: ["☠️", "🐟"], restricted: true, disposal: "Hazardous waste - ozone depleter, carcinogenic." },
+      { id: "no2", name: "Nitrogen Dioxide", formula: "NO₂", categories: ["toxic", "oxidizer"], pictograms: ["☠️", "🔥"], restricted: true, disposal: "Absorb in NaOH solution. Hazardous waste." },
+      { id: "so2", name: "Sulfur Dioxide", formula: "SO₂", categories: ["toxic"], pictograms: ["☠️"], restricted: false, disposal: "Absorb in NaOH solution. Down drain." },
+      { id: "h2s", name: "Hydrogen Sulfide", formula: "H₂S", categories: ["toxic", "flammable"], pictograms: ["☠️", "🔥"], restricted: true, disposal: "Absorb in NaOH with oxidizer. Hazardous waste." },
+      { id: "nan3", name: "Sodium Azide", formula: "NaN₃", categories: ["toxic"], pictograms: ["☠️", "💥"], restricted: true, disposal: "Oxidize with nitrous acid. Hazardous waste - explosive." },
+      { id: "aniline", name: "Aniline", formula: "C₆H₅NH₂", categories: ["toxic"], pictograms: ["☠️"], restricted: true, disposal: "Hazardous waste - toxic, carcinogenic." },
+      { id: "pyridine", name: "Pyridine", formula: "C₅H₅N", categories: ["flammable", "toxic"], pictograms: ["🔥", "⚠️"], restricted: false, disposal: "Hazardous waste - toxic, flammable." },
+      { id: "acrolein", name: "Acrolein", formula: "C₃H₄O", categories: ["toxic", "flammable"], pictograms: ["☠️", "🔥"], restricted: true, disposal: "Hazardous waste - extremely toxic." },
+      { id: "epichloro", name: "Epichlorohydrin", formula: "C₃H₅ClO", categories: ["toxic", "flammable"], pictograms: ["☠️", "🔥"], restricted: true, disposal: "Hazardous waste - carcinogenic." },
+      { id: "dmf", name: "Dimethylformamide", formula: "C₃H₇NO", categories: ["toxic"], pictograms: ["⚠️"], restricted: false, disposal: "Hazardous waste - toxic, teratogenic." },
+      { id: "acetonitrile", name: "Acetonitrile", formula: "CH₃CN", categories: ["flammable", "toxic"], pictograms: ["🔥", "⚠️"], restricted: false, disposal: "Hazardous waste - releases cyanide metabolites." },
+      { id: "peracetic", name: "Peracetic Acid", formula: "CH₃CO₃H", categories: ["oxidizer", "corrosive"], pictograms: ["🔥", "🧪"], restricted: false, disposal: "Decompose with sodium thiosulfate. Neutralize. Down drain." },
+      { id: "ozone", name: "Ozone", formula: "O₃", categories: ["oxidizer", "toxic"], pictograms: ["☠️", "🔥"], restricted: true, disposal: "Decomposes naturally - no disposal needed (used in-situ)." },
+      { id: "n2o", name: "Nitrous Oxide", formula: "N₂O", categories: ["oxidizer"], pictograms: ["🔥"], restricted: false, disposal: "Release to atmosphere in well-ventilated area." }
+    ];
+
+    const allChemicals = [...chemicalsDatabase, ...additionalChemicals];
+
+    let currentFilter = "all";
+    let currentSearchTerm = "";
+
+    async function onConfigChange(config) {
+      document.getElementById('siteTitle').textContent = config.site_title || defaultConfig.site_title;
+      document.getElementById('disclaimerBanner').textContent = config.disclaimer_text || defaultConfig.disclaimer_text;
+      document.getElementById('footerText').textContent = config.footer_text || defaultConfig.footer_text;
+    }
+
+    function updateStats() {
+      const totalChems = allChemicals.length;
+      const fullDetail = chemicalsDatabase.length;
+      const restrictedCount = allChemicals.filter(c => c.restricted).length;
+      const disposalCount = allChemicals.filter(c => c.disposal).length;
+      
+      document.getElementById('totalChems').textContent = totalChems;
+      document.getElementById('fullDetail').textContent = fullDetail;
+      document.getElementById('restricted').textContent = restrictedCount;
+      document.getElementById('disposalInfo').textContent = disposalCount + '+';
+    }
+
+    function renderChemicals() {
+      const grid = document.getElementById('chemicalsGrid');
+      const filteredChemicals = allChemicals.filter(chem => {
+        const matchesFilter = currentFilter === "all" || chem.categories.includes(currentFilter);
+        const matchesSearch = currentSearchTerm === "" || 
+          chem.name.toLowerCase().includes(currentSearchTerm.toLowerCase()) ||
+          chem.formula.toLowerCase().includes(currentSearchTerm.toLowerCase());
+        return matchesFilter && matchesSearch;
+      });
+
+      grid.innerHTML = filteredChemicals.map(chem => `
+        <div class="chemical-card" data-id="${chem.id}">
+          <div class="chemical-name">${chem.name}</div>
+          <div class="chemical-formula">${chem.formula}</div>
+          <div class="hazard-icons">
+            ${chem.pictograms && chem.pictograms.length > 0 ? chem.pictograms.map(icon => `<span class="hazard-icon">${icon}</span>`).join('') : ''}
+          </div>
+          <div class="chemical-tags">
+            ${chem.categories.map(cat => `<span class="tag">${cat}</span>`).join('')}
+            ${chem.restricted ? '<span class="tag restricted">Restricted</span>' : ''}
+            ${chem.disposal ? '<span class="tag has-disposal">Disposal Info</span>' : ''}
+          </div>
+        </div>
+      `).join('');
+
+      grid.querySelectorAll('.chemical-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+          const chemId = card.dataset.id;
+          showChemicalDetail(chemId);
+        });
+      });
+    }
+
+    function showChemicalDetail(chemId) {
+      const chemical = allChemicals.find(c => c.id === chemId);
+      if (!chemical) return;
+
+      const detailDiv = document.getElementById('chemicalDetail');
+      const grid = document.getElementById('chemicalsGrid');
+
+      if (chemical.hazardStatements) {
+        detailDiv.innerHTML = `
+          <button class="back-button" id="backButton">← Back to Library</button>
+          
+          <h1 style="font-size: 36px; font-weight: 900; color: #1e293b; margin-bottom: 8px;">${chemical.name}</h1>
+          <p style="font-size: 20px; color: #64748b; font-style: italic; margin-bottom: 24px;">${chemical.formula}</p>
+          
+          <div class="emergency-card">
+            <h2>⚠️ Emergency Quick Card</h2>
+            <p style="color: #991b1b; margin-bottom: 16px; font-size: 14px;">20-second safety overview - see detailed sections below</p>
+            <div class="emergency-grid">
+              <div class="emergency-item">
+                <div class="emergency-item-icon">${chemical.pictograms.join(' ')}</div>
+                <div class="emergency-item-label">Hazards</div>
+                <div class="emergency-item-value">${chemical.signalWord}</div>
+              </div>
+              <div class="emergency-item">
+                <div class="emergency-item-icon">🥽</div>
+                <div class="emergency-item-label">Min PPE</div>
+                <div class="emergency-item-value">Goggles, Gloves, Lab Coat</div>
+              </div>
+              <div class="emergency-item">
+                <div class="emergency-item-icon">💧</div>
+                <div class="emergency-item-label">Eye Contact</div>
+                <div class="emergency-item-value">Rinse 15+ min</div>
+              </div>
+              <div class="emergency-item">
+                <div class="emergency-item-icon">🚨</div>
+                <div class="emergency-item-label">Emergency</div>
+                <div class="emergency-item-value">Call for help</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="detail-section">
+            <h3>Overview</h3>
+            <div class="info-box">
+              <div class="info-box-content">${chemical.overview} <a href="#" class="citation">[${chemical.citations[0].id}]</a></div>
+            </div>
+          </div>
+          
+          ${chemical.disposal ? `
+          <div class="detail-section">
+            <h3>🗑️ Disposal & Waste Management</h3>
+            <div class="disposal-box">
+              <div class="disposal-box-title">♻️ Proper Disposal Method</div>
+              <div class="disposal-box-content">${chemical.disposal} Always check local regulations before disposal.</div>
+            </div>
+          </div>
+          ` : ''}
+          
+          <div class="detail-section">
+            <h3>GHS Classification</h3>
+            <div class="info-box">
+              <div class="info-box-title">Signal Word</div>
+              <div class="info-box-content" style="font-size: 24px; font-weight: 900; color: #dc2626;">${chemical.signalWord}</div>
+            </div>
+            <div class="info-box">
+              <div class="info-box-title">GHS Pictograms <a href="#" class="citation">[4]</a></div>
+              <div style="font-size: 48px; margin-top: 8px;">${chemical.pictograms.join(' ')}</div>
+            </div>
+          </div>
+          
+          <div class="detail-section">
+            <h3>Hazard Statements (H-codes) <a href="#" class="citation">[2]</a></h3>
+            ${chemical.hazardStatements.map(stmt => `
+              <div class="statement-box">
+                <div class="statement-code">${stmt.code}</div>
+                <div class="statement-official"><strong>Official GHS:</strong> ${stmt.official}</div>
+                <div class="statement-student"><strong>Student-friendly:</strong> ${stmt.student}</div>
+              </div>
+            `).join('')}
+          </div>
+          
+          <div class="detail-section">
+            <h3>Precautionary Statements (P-codes) <a href="#" class="citation">[2]</a></h3>
+            ${chemical.precautionaryStatements.map(stmt => `
+              <div class="statement-box">
+                <div class="statement-code">${stmt.code}</div>
+                <div class="statement-official"><strong>Official GHS:</strong> ${stmt.official}</div>
+                <div class="statement-student"><strong>Student-friendly:</strong> ${stmt.student}</div>
+              </div>
+            `).join('')}
+          </div>
+          
+          <div class="detail-section">
+            <h3>Personal Protective Equipment (PPE) <a href="#" class="citation">[1,3]</a></h3>
+            <div class="info-box">
+              <div class="info-box-content">${chemical.ppe}</div>
+            </div>
+          </div>
+          
+          <div class="detail-section">
+            <h3>Safe Handling Procedures <a href="#" class="citation">[1,3]</a></h3>
+            <div class="info-box">
+              <div class="info-box-content">${chemical.handling}</div>
+            </div>
+          </div>
+          
+          <div class="detail-section">
+            <h3>Storage Requirements <a href="#" class="citation">[1]</a></h3>
+            <div class="info-box">
+              <div class="info-box-content">${chemical.storage}</div>
+            </div>
+          </div>
+          
+          <div class="detail-section">
+            <h3>⚠️ Chemical Incompatibilities <a href="#" class="citation">[1,3]</a></h3>
+            <div class="warning-box">
+              <div class="warning-box-title">⚠️ CRITICAL SAFETY WARNING</div>
+              <div class="warning-box-content">${chemical.incompatibilities}</div>
+            </div>
+          </div>
+          
+          <div class="detail-section">
+            <h3>First Aid Procedures <a href="#" class="citation">[1,3]</a></h3>
+            <div class="info-box">
+              <div class="info-box-title">👋 Skin Contact</div>
+              <div class="info-box-content">${chemical.firstAid.skin}</div>
+            </div>
+            <div class="info-box">
+              <div class="info-box-title">👁️ Eye Contact</div>
+              <div class="info-box-content">${chemical.firstAid.eyes}</div>
+            </div>
+            <div class="info-box">
+              <div class="info-box-title">💨 Inhalation</div>
+              <div class="info-box-content">${chemical.firstAid.inhalation}</div>
+            </div>
+            <div class="info-box">
+              <div class="info-box-title">🤢 Ingestion</div>
+              <div class="info-box-content">${chemical.firstAid.ingestion}</div>
+            </div>
+          </div>
+          
+          <div class="detail-section">
+            <h3>Spill Response Procedures <a href="#" class="citation">[1,3]</a></h3>
+            <div class="info-box">
+              <div class="info-box-content">${chemical.spill}</div>
+            </div>
+          </div>
+          
+          <div class="detail-section">
+            <h3>Fire Response <a href="#" class="citation">[1,3]</a></h3>
+            <div class="info-box">
+              <div class="info-box-content">${chemical.fire}</div>
+            </div>
+          </div>
+          
+          <div class="detail-section">
+            <h3>Common IB Laboratory Uses</h3>
+            <div class="info-box">
+              <div class="info-box-content">${chemical.ibUses}</div>
+            </div>
+          </div>
+          
+          ${chemical.concentrationNote ? `
+          <div class="detail-section">
+            <h3>⚠️ Concentration Matters</h3>
+            <div class="warning-box">
+              <div class="warning-box-title">ℹ️ IMPORTANT NOTE</div>
+              <div class="warning-box-content">${chemical.concentrationNote}</div>
+            </div>
+          </div>
+          ` : ''}
+          
+          <div class="references-section">
+            <h4>📚 References & Sources</h4>
+            ${chemical.citations.map(cite => `
+              <div class="reference-item" data-ref="[${cite.id}]">
+                ${cite.text} ${cite.url ? `<a href="${cite.url}" target="_blank" rel="noopener noreferrer">${cite.url}</a>` : ''}
+              </div>
+            `).join('')}
+          </div>
+        `;
+
+        document.getElementById('backButton').addEventListener('click', () => {
+          detailDiv.classList.remove('active');
+          grid.style.display = 'grid';
+        });
+
+        detailDiv.classList.add('active');
+        grid.style.display = 'none';
+        window.scrollTo(0, 0);
+      } else {
+        detailDiv.innerHTML = `
+          <button class="back-button" id="backButton">← Back to Library</button>
+          
+          <h1 style="font-size: 36px; font-weight: 900; color: #1e293b; margin-bottom: 8px;">${chemical.name}</h1>
+          <p style="font-size: 20px; color: #64748b; font-style: italic; margin-bottom: 24px;">${chemical.formula}</p>
+          
+          ${chemical.disposal ? `
+          <div class="detail-section">
+            <h3>🗑️ Disposal & Waste Management</h3>
+            <div class="disposal-box">
+              <div class="disposal-box-title">♻️ Proper Disposal Method</div>
+              <div class="disposal-box-content">${chemical.disposal} Always check local regulations before disposal.</div>
+            </div>
+          </div>
+          ` : ''}
+          
+          <div class="info-box" style="background: #fef3c7; border-left-color: #f59e0b;">
+            <div class="info-box-title" style="color: #92400e;">ℹ️ Comprehensive Safety Profile Coming Soon</div>
+            <div class="info-box-content" style="color: #78350f;">
+              Full detailed safety data for this chemical is being compiled. Disposal information is provided above. Always consult the official SDS from your chemical supplier and follow your school's laboratory safety protocols.
+              ${chemical.restricted ? '<br><br><strong>⚠️ RESTRICTED CHEMICAL:</strong> This substance requires special authorization and handling procedures in most educational settings.' : ''}
+            </div>
+          </div>
+          
+          <div class="detail-section">
+            <h3>Basic Information</h3>
+            <div class="info-box">
+              <div class="info-box-title">Chemical Categories</div>
+              <div class="info-box-content">${chemical.categories && chemical.categories.length > 0 ? chemical.categories.join(', ') : 'General laboratory chemical'}</div>
+            </div>
+            ${chemical.pictograms && chemical.pictograms.length > 0 ? `
+            <div class="info-box">
+              <div class="info-box-title">GHS Pictograms</div>
+              <div style="font-size: 48px; margin-top: 8px;">${chemical.pictograms.join(' ')}</div>
+            </div>
+            ` : ''}
+          </div>
+        `;
+
+        document.getElementById('backButton').addEventListener('click', () => {
+          detailDiv.classList.remove('active');
+          grid.style.display = 'grid';
+        });
+
+        detailDiv.classList.add('active');
+        grid.style.display = 'none';
+        window.scrollTo(0, 0);
+      }
+    }
+
+    function generatePoster(category) {
+      const posterContent = document.getElementById('posterContent');
+      let title, chemicals, ppe, warnings;
+
+      if (category === 'strong-acids') {
+        title = "STRONG ACIDS SAFETY";
+        chemicals = [
+          { name: "Hydrochloric Acid", formula: "HCl" },
+          { name: "Sulfuric Acid", formula: "H₂SO₄" },
+          { name: "Nitric Acid", formula: "HNO₃" }
+        ];
+        ppe = [
+          { icon: "🥽", label: "Safety Goggles" },
+          { icon: "🧤", label: "Acid Gloves" },
+          { icon: "🥼", label: "Lab Coat" },
+          { icon: "🚿", label: "Use Fume Hood" }
+        ];
+        warnings = [
+          "ALWAYS add acid to water, NEVER water to acid",
+          "Causes severe chemical burns to skin and eyes",
+          "Keep away from bases - violent exothermic reaction",
+          "Eye contact: Rinse 15+ minutes, get medical help immediately",
+          "Spills: Neutralize with sodium bicarbonate"
+        ];
+      } else if (category === 'strong-bases') {
+        title = "STRONG BASES SAFETY";
+        chemicals = [
+          { name: "Sodium Hydroxide", formula: "NaOH" },
+          { name: "Potassium Hydroxide", formula: "KOH" },
+          { name: "Ammonia Solution", formula: "NH₃(aq)" }
+        ];
+        ppe = [
+          { icon: "🥽", label: "Safety Goggles" },
+          { icon: "🧤", label: "Chemical Gloves" },
+          { icon: "🥼", label: "Lab Coat" },
+          { icon: "🚿", label: "Near Eye Wash" }
+        ];
+        warnings = [
+          "Add base solid slowly to water - exothermic dissolution",
+          "Causes severe burns - base damage can worsen over time",
+          "Base burns feel slippery but are extremely dangerous",
+          "Keep away from acids - violent reaction",
+          "Eye contact: EMERGENCY - rinse 20+ min, get help immediately"
+        ];
+      } else if (category === 'flammables') {
+        title = "FLAMMABLE SOLVENTS SAFETY";
+        chemicals = [
+          { name: "Ethanol", formula: "C₂H₅OH" },
+          { name: "Methanol", formula: "CH₃OH" },
+          { name: "Acetone", formula: "(CH₃)₂CO" },
+          { name: "Hexane", formula: "C₆H₁₄" }
+        ];
+        ppe = [
+          { icon: "🥽", label: "Safety Goggles" },
+          { icon: "🧤", label: "Nitrile Gloves" },
+          { icon: "🥼", label: "Lab Coat" },
+          { icon: "🌬️", label: "Ventilation" }
+        ];
+        warnings = [
+          "Eliminate ALL ignition sources before use",
+          "No Bunsen burners, hot plates, or sparks nearby",
+          "Vapors can travel across lab to reach ignition source",
+          "Keep containers tightly closed - evaporate rapidly",
+          "Spills: Eliminate ignition sources, ventilate, absorb with sand"
+        ];
+      } else if (category === 'oxidizers') {
+        title = "OXIDIZING AGENTS SAFETY";
+        chemicals = [
+          { name: "Hydrogen Peroxide", formula: "H₂O₂" },
+          { name: "Potassium Permanganate", formula: "KMnO₄" },
+          { name: "Potassium Dichromate", formula: "K₂Cr₂O₇" }
+        ];
+        ppe = [
+          { icon: "🥽", label: "Safety Goggles" },
+          { icon: "🧤", label: "Chemical Gloves" },
+          { icon: "🥼", label: "Lab Coat" },
+          { icon: "🚿", label: "Use Fume Hood" }
+        ];
+        warnings = [
+          "Can cause fires or make existing fires worse",
+          "Keep away from combustible materials and organic solvents",
+          "Never mix with flammable liquids - spontaneous ignition risk",
+          "Concentrated H₂O₂ decomposes rapidly - pressure buildup",
+          "Store separately from acids, bases, and reducing agents"
+        ];
+      }
+
+      posterContent.innerHTML = `
+        <div class="poster-preview">
+          <div class="poster-title">${title}</div>
+          
+          <div class="poster-section">
+            <h4>⚗️ Chemicals in This Category</h4>
+            <div class="poster-chemicals">
+              ${chemicals.map(chem => `
+                <div class="poster-chemical">
+                  <div class="poster-chemical-name">${chem.name}</div>
+                  <div class="poster-chemical-formula">${chem.formula}</div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+          
+          <div class="poster-section">
+            <h4>🛡️ Required PPE</h4>
+            <div class="poster-ppe-grid">
+              ${ppe.map(item => `
+                <div class="poster-ppe-item">
+                  <div class="poster-ppe-icon">${item.icon}</div>
+                  <div class="poster-ppe-label">${item.label}</div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+          
+          <div class="poster-section">
+            <h4>⚠️ Critical Safety Warnings</h4>
+            ${warnings.map((warning, i) => `
+              <div style="background: ${i === 0 ? '#fee2e2' : '#f8fafc'}; padding: 12px; border-radius: 8px; margin-bottom: 8px; border-left: 4px solid ${i === 0 ? '#dc2626' : '#667eea'};">
+                <strong style="color: #1e293b;">${i + 1}.</strong> ${warning}
+              </div>
+            `).join('')}
+          </div>
+          
+          <div style="background: #fef3c7; border: 2px solid #f59e0b; border-radius: 8px; padding: 16px; margin-top: 16px; text-align: center;">
+            <strong style="color: #92400e;">⚠️ IN CASE OF EMERGENCY: Call for help immediately and follow school emergency protocols</strong>
+          </div>
+        </div>
+        
+        <button class="print-button" onclick="window.print()">🖨️ Print Poster (A4)</button>
+      `;
+    }
+
+    function populateChemicalSelector() {
+      const selector = document.getElementById('chemicalSelector');
+      const commonChemicals = chemicalsDatabase.slice(0, 8);
+      
+      selector.innerHTML = commonChemicals.map(chem => `
+        <div class="chemical-checkbox">
+          <input type="checkbox" id="check-${chem.id}" value="${chem.id}">
+          <label for="check-${chem.id}">${chem.name}</label>
+        </div>
+      `).join('');
+    }
+
+    function generateSafetyPlan() {
+      const checkboxes = document.querySelectorAll('#chemicalSelector input[type="checkbox"]:checked');
+      const selectedIds = Array.from(checkboxes).map(cb => cb.value);
+      
+      if (selectedIds.length === 0) {
+        const planDiv = document.getElementById('safetyPlan');
+        planDiv.innerHTML = '<div class="info-box" style="background: #fef3c7; border-left-color: #f59e0b;"><div class="info-box-content" style="color: #92400e;">Please select at least one chemical to generate a safety plan.</div></div>';
+        planDiv.classList.add('active');
+        return;
+      }
+
+      const selectedChemicals = chemicalsDatabase.filter(c => selectedIds.includes(c.id));
+      
+      const allPPE = new Set();
+      const incompatibilities = [];
+      const ventilationNeeded = [];
+      const spillKits = new Set();
+      const disposalMethods = [];
+      
+      selectedChemicals.forEach(chem => {
+        if (chem.ppe.includes('goggles')) allPPE.add('Chemical splash goggles');
+        if (chem.ppe.includes('gloves')) allPPE.add('Chemical-resistant gloves (nitrile recommended)');
+        if (chem.ppe.includes('lab coat')) allPPE.add('Lab coat');
+        if (chem.ppe.includes('face shield')) allPPE.add('Face shield (for concentrated solutions)');
+        
+        if (chem.handling.includes('fume hood')) ventilationNeeded.push(`${chem.name}: ${chem.handling.split('.')[0]} [1]`);
+        
+        if (chem.incompatibilities) {
+          const others = selectedChemicals.filter(c => c.id !== chem.id);
+          others.forEach(other => {
+            if (chem.incompatibilities.toLowerCase().includes(other.name.toLowerCase()) ||
+                (chem.categories.includes('acid') && other.categories.includes('base')) ||
+                (chem.categories.includes('base') && other.categories.includes('acid'))) {
+              incompatibilities.push(`⚠️ ${chem.name} + ${other.name}: ${chem.incompatibilities.split('.')[0]} [1,3]`);
+            }
+          });
+        }
+        
+        if (chem.categories.includes('acid')) spillKits.add('Sodium bicarbonate (acid neutralizer)');
+        if (chem.categories.includes('base')) spillKits.add('Citric acid or dilute HCl (base neutralizer)');
+        if (chem.categories.includes('flammable')) spillKits.add('Sand or vermiculite (non-sparking absorbent)');
+        spillKits.add('Spill absorbent pads or vermiculite');
+        spillKits.add('Plastic waste bags (chemical resistant)');
+        spillKits.add('Gloves and goggles (for cleanup)');
+        
+        if (chem.disposal) {
+          disposalMethods.push(`${chem.name}: ${chem.disposal}`);
+        }
+      });
+
+      const planDiv = document.getElementById('safetyPlan');
+      planDiv.innerHTML = `
+        <h3 style="font-size: 24px; font-weight: 800; color: #1e293b; margin-bottom: 24px;">Safety Plan for Selected Chemicals</h3>
+        
+        <div class="plan-section">
+          <h4>🥽 Combined PPE Requirements</h4>
+          ${Array.from(allPPE).map(ppe => `
+            <div class="plan-item">
+              <div class="plan-item-content">✓ ${ppe}</div>
+            </div>
+          `).join('')}
+          <div style="margin-top: 12px; font-size: 13px; color: #64748b; font-style: italic;">
+            Source: Combined from individual SDS documents [1,3]
+          </div>
+        </div>
+        
+        ${incompatibilities.length > 0 ? `
+        <div class="plan-section" style="border-left-color: #dc2626;">
+          <h4>⚠️ CRITICAL: Incompatibility Warnings</h4>
+          ${incompatibilities.map(warning => `
+            <div class="warning-box">
+              <div class="warning-box-content">${warning}</div>
+            </div>
+          `).join('')}
+        </div>
+        ` : `
+        <div class="plan-section" style="border-left-color: #10b981;">
+          <h4>✓ Chemical Compatibility</h4>
+          <div class="plan-item">
+            <div class="plan-item-content" style="color: #059669;">No direct incompatibilities detected between selected chemicals. However, always keep chemicals separated and follow general storage guidelines.</div>
+          </div>
+        </div>
+        `}
+        
+        ${ventilationNeeded.length > 0 ? `
+        <div class="plan-section">
+          <h4>🌬️ Ventilation Requirements</h4>
+          ${ventilationNeeded.map(req => `
+            <div class="plan-item">
+              <div class="plan-item-content">${req}</div>
+            </div>
+          `).join('')}
+        </div>
+        ` : ''}
+        
+        <div class="plan-section">
+          <h4>🧰 Required Spill Kit Contents</h4>
+          ${Array.from(spillKits).map(item => `
+            <div class="plan-item">
+              <div class="plan-item-content">• ${item}</div>
+            </div>
+          `).join('')}
+          <div style="margin-top: 12px; font-size: 13px; color: #64748b; font-style: italic;">
+            Source: Spill response procedures from SDS [1,3]
+          </div>
+        </div>
+        
+        ${disposalMethods.length > 0 ? `
+        <div class="plan-section" style="border-left-color: #0284c7;">
+          <h4>🗑️ Disposal Procedures</h4>
+          ${disposalMethods.map(method => `
+            <div class="plan-item">
+              <div class="plan-item-content">${method}</div>
+            </div>
+          `).join('')}
+          <div style="margin-top: 12px; font-size: 13px; color: #64748b; font-style: italic;">
+            Always verify with local regulations before disposal
+          </div>
+        </div>
+        ` : ''}
+        
+        <div class="plan-section">
+          <h4>🚨 Emergency Contacts</h4>
+          <div class="plan-item">
+            <div class="plan-item-title">School Lab Supervisor:</div>
+            <div class="plan-item-content">___________________ (Fill in before lab)</div>
+          </div>
+          <div class="plan-item">
+            <div class="plan-item-title">Emergency Services:</div>
+            <div class="plan-item-content">911 or local emergency number</div>
+          </div>
+          <div class="plan-item">
+            <div class="plan-item-title">Poison Control:</div>
+            <div class="plan-item-content">1-800-222-1222 (US) or local poison center</div>
+          </div>
+        </div>
+        
+        <div style="background: #fef3c7; border: 2px solid #f59e0b; border-radius: 12px; padding: 20px; margin-top: 24px;">
+          <strong style="color: #92400e; font-size: 16px;">📋 Pre-Lab Checklist:</strong>
+          <div style="margin-top: 12px; color: #78350f;">
+            ☐ Review individual SDS for each chemical<br>
+            ☐ Verify all PPE available and in good condition<br>
+            ☐ Locate eye wash station and safety shower<br>
+            ☐ Ensure spill kit is accessible and complete<br>
+            ☐ Confirm fume hood operation (if required)<br>
+            ☐ Brief all students on emergency procedures<br>
+            ☐ Have supervisor approval before starting
+          </div>
+        </div>
+        
+        <div class="references-section" style="margin-top: 24px;">
+          <h4>📚 Safety Plan References</h4>
+          <div class="reference-item" data-ref="[1]">Individual manufacturer SDS documents for each selected chemical</div>
+          <div class="reference-item" data-ref="[2]">ECHA Harmonized GHS Classifications</div>
+          <div class="reference-item" data-ref="[3]">NIOSH Pocket Guide to Chemical Hazards</div>
+        </div>
+      `;
+      
+      planDiv.classList.add('active');
+    }
+
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+      currentSearchTerm = e.target.value;
+      renderChemicals();
+    });
+
+    document.getElementById('filterChips').addEventListener('click', (e) => {
+      if (e.target.classList.contains('filter-chip')) {
+        document.querySelectorAll('.filter-chip').forEach(chip => chip.classList.remove('active'));
+        e.target.classList.add('active');
+        currentFilter = e.target.dataset.filter;
+        renderChemicals();
+      }
+    });
+
+    document.getElementById('posterTool').addEventListener('click', () => {
+      document.getElementById('posterModal').classList.add('active');
+    });
+
+    document.getElementById('plannerTool').addEventListener('click', () => {
+      document.getElementById('plannerModal').classList.add('active');
+      populateChemicalSelector();
+    });
+
+    document.getElementById('closePosterModal').addEventListener('click', () => {
+      document.getElementById('posterModal').classList.remove('active');
+    });
+
+    document.getElementById('closePlannerModal').addEventListener('click', () => {
+      document.getElementById('plannerModal').classList.remove('active');
+    });
+
+    document.getElementById('generatePlanButton').addEventListener('click', generateSafetyPlan);
+
+    window.generatePoster = generatePoster;
+
+    document.getElementById('posterModal').addEventListener('click', (e) => {
+      if (e.target.id === 'posterModal') {
+        e.target.classList.remove('active');
+      }
+    });
+
+    document.getElementById('plannerModal').addEventListener('click', (e) => {
+      if (e.target.id === 'plannerModal') {
+        e.target.classList.remove('active');
+      }
+    });
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig: defaultConfig,
+        onConfigChange: onConfigChange,
+        mapToCapabilities: (config) => ({
+          recolorables: [],
+          borderables: [],
+          fontEditable: undefined,
+          fontSizeable: undefined
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ["site_title", config.site_title || defaultConfig.site_title],
+          ["disclaimer_text", config.disclaimer_text || defaultConfig.disclaimer_text],
+          ["footer_text", config.footer_text || defaultConfig.footer_text]
+        ])
+      });
+      
+      onConfigChange(window.elementSdk.config);
+    }
+
+    updateStats();
+    renderChemicals();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9bde3987750dd8ca',t:'MTc2ODQwNTE1Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
